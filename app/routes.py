@@ -26,7 +26,7 @@ def save():
 def export_new_transactions():
     new_transactions = get_new_transactions()
     if not new_transactions:
-        return jsonify({"message": "No new transactions to export"}), 200
+        return jsonify({"message": "No new transactions to export"}), 201
 
     return jsonify({
         "data": new_transactions,
@@ -37,5 +37,8 @@ def export_new_transactions():
 @app.route('/budget/export_file', methods=['GET'])
 def export_new_transactions_file():
     new_transactions = get_new_transactions()
+    if not new_transactions:
+        return jsonify({"message": "No new transactions to export"}), 201
+
     file_path = save_transactions_to_file(new_transactions)
     return send_file(file_path, as_attachment=True)

@@ -31,7 +31,7 @@ def get_new_transactions():
         new_transactions_cursor = Transaction.get_all()
     new_transactions = list(new_transactions_cursor)
     if not new_transactions:
-        return jsonify({"message": "No new transactions to export"}), 200
+        return None
     save_export_log(new_transactions)
 
     processed_transactions = []
