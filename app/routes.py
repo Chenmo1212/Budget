@@ -1,4 +1,4 @@
-from flask import jsonify, request, send_file
+from flask import jsonify, request, send_file, render_template
 from app import app
 from dotenv import load_dotenv
 from app.services import get_new_transactions, save_transactions_to_file, save_transaction
@@ -6,9 +6,9 @@ from app.services import get_new_transactions, save_transactions_to_file, save_t
 load_dotenv()
 
 
-@app.route('/', methods=['GET'])
+@app.route('/budget/', methods=['GET'])
 def index():
-    return "hello world"
+    return render_template('index.html')
 
 
 # This API saves a new transaction and returns its ID.

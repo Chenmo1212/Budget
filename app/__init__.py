@@ -9,8 +9,7 @@ if app.env == 'production':
     app.config.from_object('config_production')
 else:
     app.config.from_object('config_development')
-
-app.debug = True
+    app.debug = True
 
 mongo = PyMongo(app)
 
