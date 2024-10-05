@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            color: #d63384;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Budget API Documentation</h1>
+
+    <p>Welcome to the Budget API. Below you will find details on how to interact with the available endpoints.</p>
+
+    <h2>1. Save a New Transaction</h2>
+    <p><strong>Endpoint:</strong> <code>POST /budget/transaction</code></p>
+    <p><strong>Description:</strong> This API allows you to save a new transaction. The transaction data must be sent in JSON format.</p>
+    <p><strong>Request Body Example:</strong></p>
+    <pre><code>
+{
+    "description": "Grocery Shopping",
+    "category": "Food",
+    "amount": 50.75,
+    "currency": "USD",
+    "transaction_date": "2023-10-01",
+    "account": "Credit Card",
+    "payer": "John Doe",
+    "payee": "Supermarket"
+}
+    </code></pre>
+    <p><strong>Response:</strong> Returns a message and the ID of the newly created transaction.</p>
+
+    <h2>2. Export New Transactions as JSON</h2>
+    <p><strong>Endpoint:</strong> <code>GET /budget/export</code></p>
+    <p><strong>Description:</strong> This API exports all new transactions that haven't been exported yet. The transactions are returned in JSON format.</p>
+    <p><strong>Response:</strong> Returns the new transactions or a message if no new transactions are available.</p>
+
+    <h2>3. Export New Transactions as a CSV File</h2>
+    <p><strong>Endpoint:</strong> <code>GET /budget/export_file</code></p>
+    <p><strong>Description:</strong> This API exports all new transactions that haven't been exported yet and provides a CSV file for download.</p>
+    <p><strong>Response:</strong> Returns a downloadable CSV file containing the new transactions or a message if no new transactions are available.</p>
+
+</body>
+</html>
