@@ -57,3 +57,14 @@ def save_transactions_to_file(transactions):
     file_path = os.path.join(EXPORT_FOLDER, f'new_transactions_{datetime.now().strftime("%Y%m%d%H%M%S")}.csv')
     df.to_csv(file_path, index=False)
     return file_path
+
+
+def withdraw_export_log():
+    # Find the last export log
+    last_export_log = ExportLog.get_last_log()
+
+    if not last_export_log:
+        return None
+
+    ExportLog.delete_last_export(last_export_log["_id"])
+    return last_export_log

@@ -81,3 +81,16 @@ class ExportLog:
             'exported_transaction_id': ObjectId(transaction_id),
             'exported_at': datetime.now()  # Optional timestamp for audit purposes
         })
+
+    @staticmethod
+    def get_last_log():
+        """Retrieve the last exported transaction ID"""
+        last_export = mongo.db.export_log.find_one(sort=[("_id", -1)])
+        return last_export if last_export else None
+
+    @staticmethod
+    def delete_last_export(export_log_id):
+        """
+        Delete the specified export log entry by its ID.
+        """
+        mongo.db.export_log.delete_one({'_id': export_log_id})

@@ -1,7 +1,7 @@
 from flask import jsonify, request, send_file, render_template
 from app import app
 from dotenv import load_dotenv
-from app.services import get_new_transactions, save_transactions_to_file, save_transaction
+from app.services import get_new_transactions, save_transactions_to_file, save_transaction, withdraw_export_log
 
 load_dotenv()
 
@@ -34,7 +34,7 @@ def export_new_transactions():
 
 
 # This API exports new transactions and sends them as a CSV file.
-@app.route('/budget/export_file', methods=['GET'])
+@app.route('/budget/export/file', methods=['GET'])
 def export_new_transactions_file():
     new_transactions = get_new_transactions()
     if not new_transactions:
@@ -42,3 +42,17 @@ def export_new_transactions_file():
 
     file_path = save_transactions_to_file(new_transactions)
     return send_file(file_path, as_attachment=True)
+
+
+# API to withdraw the last export log
+@app.route('/budget/log', methods=['DELETE'])
+def withdraw_last_export():
+    last_export_log = withdraw_export_log()
+
+    if not last_export_log:
+        return jsonify({"message": "No export log entries found to withdraw."}), 404
+
+    return jsonify({
+        "message": "Last export log entry has been successfully withdrawn.",
+        "export_log_id": str(last_export_log["_id"])
+    }), 200
