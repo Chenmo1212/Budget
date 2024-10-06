@@ -11,10 +11,10 @@ if not os.path.exists(EXPORT_FOLDER):
     os.makedirs(EXPORT_FOLDER)
 
 def save_transaction(data):
-    required_fields = ['description', 'category', 'amount', 'currency', 'transaction_date', 'account', 'payer', 'payee']
+    required_fields = ['category', 'amount', 'currency', 'account']
     missing_fields = [field for field in required_fields if field not in data]
     if missing_fields:
-        return jsonify({'error': 'Missing fields', 'missing_fields': missing_fields}), 400
+        return None, jsonify({'error': 'Missing fields', 'missing_fields': missing_fields})
 
     result = Transaction(**data)
     result.save()

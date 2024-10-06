@@ -14,7 +14,9 @@ def index():
 # This API saves a new transaction and returns its ID.
 @app.route('/budget/transaction', methods=['POST'])
 def save():
-    result = save_transaction(request.json)
+    result, _ = save_transaction(request.json)
+    if not result:
+        return _, 400
     return jsonify({
         'message': 'Transaction saved successfully',
         'transaction_id': str(result.id)
