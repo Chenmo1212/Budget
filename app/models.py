@@ -4,7 +4,7 @@ from bson import ObjectId
 
 
 class Transaction:
-    def __init__(self, description, category, amount, currency, transaction_date, account, payer, payee,
+    def __init__(self, category, amount, currency, account, payer, payee, description=None, transaction_date=None,
                  create_time=None, update_time=None, id=None):
         self.id = ObjectId(id) if id else None
         self.description = description or "" # Description

@@ -18,7 +18,7 @@ def save_transaction(data):
 
     result = Transaction(**data)
     result.save()
-    return result
+    return result, ""
 
 def get_new_transactions():
     """
@@ -37,7 +37,7 @@ def get_new_transactions():
     processed_transactions = []
     for transaction in new_transactions:
         transaction['_id'] = str(transaction['_id'])  # Convert ObjectId to string
-        transaction['amount'] = f"{transaction['currency']} {transaction['amount']}"  # Combine currency and amount
+        transaction['amount'] = "{} {}".format(transaction['currency'], transaction['amount'])
         processed_transactions.append(transaction)
 
     return processed_transactions
@@ -54,7 +54,7 @@ def save_transactions_to_file(transactions):
     Save processed transactions to a CSV file.
     """
     df = pd.DataFrame(transactions)
-    file_path = os.path.join(EXPORT_FOLDER, f'new_transactions_{datetime.now().strftime("%Y%m%d%H%M%S")}.csv')
+    file_path = os.path.join(EXPORT_FOLDER, "new_transactions_{}.csv".format(datetime.now().strftime("%Y%m%d%H%M%S")))
     df.to_csv(file_path, index=False)
     return file_path
 
