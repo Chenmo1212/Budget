@@ -3,41 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Documentation</title>
+    <title>Budget API Documentation</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         h1 {
-            color: #333;
+            color: #343a40;
+            font-size: 28px;
+            text-align: center;
         }
         h2 {
-            color: #555;
+            color: #495057;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        p {
+            font-size: 16px;
+            color: #6c757d;
         }
         pre {
-            background-color: #f4f4f4;
-            padding: 10px;
-            border-radius: 5px;
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 6px;
             overflow-x: auto;
+            font-size: 14px;
         }
         code {
-            color: #d63384;
+            color: #e83e8c;
+            font-size: 14px;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .api-section {
+            margin-bottom: 30px;
         }
     </style>
 </head>
 <body>
 
-    <h1>Budget API Documentation</h1>
+    <div class="container">
+        <h1>Budget API Documentation</h1>
 
-    <p>Welcome to the Budget API. Below you will find details on how to interact with the available endpoints.</p>
+        <p>Welcome to the Budget API. Below you will find details on how to interact with the available endpoints.</p>
 
-    <h2>1. Save a New Transaction</h2>
-    <p><strong>Endpoint:</strong> <code>POST /budget/transaction</code></p>
-    <p><strong>Description:</strong> This API allows you to save a new transaction. The transaction data must be sent in JSON format.</p>
-    <p><strong>Request Body Example:</strong></p>
-    <pre><code>
+        <div class="api-section">
+            <h2>1. Save a New Transaction</h2>
+            <p><strong>Endpoint:</strong> <code>POST /budget/transaction</code></p>
+            <p><strong>Description:</strong> This API allows you to save a new transaction. The transaction data must be sent in JSON format.</p>
+            <p><strong>Request Body Example:</strong></p>
+            <pre><code>
 {
     "description": "Grocery Shopping",
     "category": "Food",
@@ -48,18 +85,120 @@
     "payer": "John Doe",
     "payee": "Supermarket"
 }
-    </code></pre>
-    <p><strong>Response:</strong> Returns a message and the ID of the newly created transaction.</p>
+            </code></pre>
+            <button class="button" onclick="mockPostTransaction()">Mock POST Request</button>
+        </div>
 
-    <h2>2. Export New Transactions as JSON</h2>
-    <p><strong>Endpoint:</strong> <code>GET /budget/export</code></p>
-    <p><strong>Description:</strong> This API exports all new transactions that haven't been exported yet. The transactions are returned in JSON format.</p>
-    <p><strong>Response:</strong> Returns the new transactions or a message if no new transactions are available.</p>
+        <div class="api-section">
+            <h2>2. Export New Transactions as JSON</h2>
+            <p><strong>Endpoint:</strong> <code>GET /budget/export</code></p>
+            <p><strong>Description:</strong> This API exports all new transactions that haven't been exported yet. The transactions are returned in JSON format.</p>
+            <p><strong>Response:</strong> Returns the new transactions or a message if no new transactions are available.</p>
+            <button class="button" onclick="mockGetExport()">Mock GET Request</button>
+        </div>
 
-    <h2>3. Export New Transactions as a CSV File</h2>
-    <p><strong>Endpoint:</strong> <code>GET /budget/export_file</code></p>
-    <p><strong>Description:</strong> This API exports all new transactions that haven't been exported yet and provides a CSV file for download.</p>
-    <p><strong>Response:</strong> Returns a downloadable CSV file containing the new transactions or a message if no new transactions are available.</p>
+        <div class="api-section">
+            <h2>3. Export New Transactions as a CSV File</h2>
+            <p><strong>Endpoint:</strong> <code>GET /budget/export/file</code></p>
+            <p><strong>Description:</strong> This API exports all new transactions that haven't been exported yet and provides a CSV file for download.</p>
+            <p><strong>Response:</strong> Returns a downloadable CSV file containing the new transactions or a message if no new transactions are available.</p>
+            <button class="button" onclick="mockGetExportFile()">Mock GET Request</button>
+        </div>
 
+        <div class="api-section">
+            <h2>4. Withdraw the Last Export Log</h2>
+            <p><strong>Endpoint:</strong> <code>DELETE /budget/log</code></p>
+            <p><strong>Description:</strong> This API withdraws (deletes) the most recent export log entry. This is useful to roll back or undo the most recent export.</p>
+            <p><strong>Response:</strong> Returns a message confirming the log has been withdrawn, along with the ID of the withdrawn export log, or a message if no log is found.</p>
+            <button class="button" onclick="mockDeleteLog()">Mock DELETE Request</button>
+        </div>
+    </div>
+
+<script>
+    const baseUrl = window.location.origin;
+
+    // POST request to save a new transaction
+    function mockPostTransaction() {
+        const data = {
+            description: "Grocery Shopping",
+            category: "Food",
+            amount: 50.75,
+            currency: "USD",
+            transaction_date: "2023-10-01",
+            account: "Credit Card",
+            payer: "John Doe",
+            payee: "Supermarket"
+        };
+
+        fetch(`${baseUrl}/budget/transaction`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("POST /budget/transaction Response:", data);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    }
+
+    // GET request to export transactions as JSON
+    function mockGetExport() {
+        fetch(`${baseUrl}/budget/export`, {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("GET /budget/export Response:", data);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    }
+
+    // GET request to export transactions as a CSV file
+    function mockGetExportFile() {
+        fetch(`${baseUrl}/budget/export/file`, {
+            method: 'GET'
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.blob();
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .then(blob => {
+            // Simulate downloading the file
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "new_transactions.csv";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    }
+
+    // DELETE request to withdraw the last export log
+    function mockDeleteLog() {
+        fetch(`${baseUrl}/budget/log`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log("DELETE /budget/log Response:", data);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    }
+</script>
 </body>
 </html>
