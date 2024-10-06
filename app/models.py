@@ -7,14 +7,14 @@ class Transaction:
     def __init__(self, description, category, amount, currency, transaction_date, account, payer, payee,
                  create_time=None, update_time=None, id=None):
         self.id = ObjectId(id) if id else None
-        self.description = description  # Description
+        self.description = description or "" # Description
         self.category = category  # Category
         self.amount = amount #Amount
         self.currency = currency  # Currency
-        self.transaction_date = transaction_date  # Transaction date
+        self.transaction_date = transaction_date or datetime.now()  # Transaction date
         self.account = account  # Account
-        self.payer = payer  # Payer
-        self.payee = payee  # Payee
+        self.payer = payer or ""  # Payer
+        self.payee = payee or "" # Payee
         self.create_time = create_time or datetime.now()  # creation time
         self.update_time = update_time or datetime.now()  # Update time
 
