@@ -55,7 +55,7 @@ def save_transactions_to_file(transactions):
     """
     df = pd.DataFrame(transactions)
     file_path = os.path.join(EXPORT_FOLDER, "new_transactions_{}.csv".format(datetime.now().strftime("%Y%m%d%H%M%S")))
-    df.to_csv(file_path, index=False)
+    df.to_csv(file_path, index=False, encoding='utf-8')
     return file_path
 
 
